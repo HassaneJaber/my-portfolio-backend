@@ -32,7 +32,7 @@ RUN chmod -R 775 /var/www/storage /var/www/bootstrap/cache
 RUN php artisan migrate --force
 
 # ✅ Optionally seed the database (if you have a seeder)
-RUN php artisan db:seed --force
+#RUN php artisan db:seed --force
 
 # Expose port 9000 and start php-fpm server
 EXPOSE 9000
