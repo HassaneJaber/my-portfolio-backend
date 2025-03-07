@@ -28,6 +28,12 @@ RUN php artisan config:cache && php artisan route:cache
 RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
 RUN chmod -R 775 /var/www/storage /var/www/bootstrap/cache
 
+# ✅ Run database migrations automatically
+RUN php artisan migrate --force || echo "Migration failed, continuing deployment..."
+
+# ✅ Set the correct permissions for the storage folder (avoiding permission issues)
+RUN chmod -R 777 /var/www/storage /var/www/bootstrap/cache
+
 # Expose port 9000 and start php-fpm server
 EXPOSE 9000
 CMD ["php-fpm"]
