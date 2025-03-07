@@ -18,7 +18,13 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Copy existing application directory contents
 COPY . /var/www
 
-# Set up Laravel permissions
+# ✅ Install PHP dependencies (this replaces the pre-deploy command)
+RUN composer install --no-dev --optimize-autoloader
+
+# ✅ Run Laravel cache optimizations
+RUN php artisan config:cache && php artisan route:cache
+
+# ✅ Fix file permissions for Laravel
 RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
 RUN chmod -R 775 /var/www/storage /var/www/bootstrap/cache
 
