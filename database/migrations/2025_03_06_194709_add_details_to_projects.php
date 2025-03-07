@@ -10,13 +10,14 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up()
-    {
-        Schema::table('projects', function (Blueprint $table) {
-            $table->string('tech_stack')->nullable();  // Technologies used
-            $table->string('github_link')->nullable(); // GitHub repository
-            $table->string('live_demo')->nullable();   // Live demo URL
-        });
-    }
+{
+    Schema::table('projects', function (Blueprint $table) {
+        if (!Schema::hasColumn('projects', 'tech_stack')) {
+            $table->string('tech_stack')->nullable();
+        }
+    });
+}
+
     
 
     /**
