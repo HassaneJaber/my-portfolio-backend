@@ -18,7 +18,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Copy existing application directory contents
 COPY . /var/www
 
-# ✅ Install PHP dependencies (this replaces the pre-deploy command)
+# ✅ Install PHP dependencies
 RUN composer install --no-dev --optimize-autoloader
 
 # ✅ Run Laravel cache optimizations
@@ -29,10 +29,10 @@ RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
 RUN chmod -R 775 /var/www/storage /var/www/bootstrap/cache
 
 # ✅ Run database migrations automatically
-RUN php artisan migrate --force || echo "Migration failed, continuing deployment..."
+RUN php artisan migrate --force
 
-# ✅ Set the correct permissions for the storage folder (avoiding permission issues)
-RUN chmod -R 777 /var/www/storage /var/www/bootstrap/cache
+# ✅ Optionally seed the database (if you have a seeder)
+RUN php artisan db:seed --force
 
 # Expose port 9000 and start php-fpm server
 EXPOSE 9000
