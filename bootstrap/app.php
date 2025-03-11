@@ -3,6 +3,11 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Dotenv\Dotenv; // Ensure dotenv is available
+
+// ✅ Manually load .env file (if needed)
+$dotenv = Dotenv::createImmutable(__DIR__.'/../');
+$dotenv->safeLoad();
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -12,8 +17,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        // Add your global middleware here
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        //
-    })->create();
+        // Add exception handling here
+    })
+    ->create();
